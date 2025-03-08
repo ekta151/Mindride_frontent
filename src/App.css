@@ -1,4 +1,4 @@
-Login.css
+/* Login.css
 
 body {
   font-family: Arial, sans-serif;
@@ -57,5 +57,32 @@ button {
 }
 
 button:hover {
-  background: #0056b3;
+  background: #0056b3;  
 }
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+}
+
+.register-link {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.login-link {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.forgot-password-link {
+  text-align: center;
+  margin-top: 15px;
+}
+
+
+
+
+
+
+ */

@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
-import './Login.css';
+import { Link } from 'react-router-dom';
+import './Registration.css';
 
-
-const Login = () => {
+const Registration = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({
@@ -27,27 +25,18 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      // Add console.log to debug
-      console.log('Attempting login with:', formData);
+      const response = await axios.post('http://localhost:5000/api/auth/register', formData);
       
-      const response = await axios.post('http://localhost:5000/api/auth/login', formData);
-      console.log('Login response:', response.data);
-
-      if (response.data.token) {
-        // Store the token
-        localStorage.setItem('token', response.data.token);
-        
-        // Set axios default header
-        axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
-        
-        console.log('Token stored successfully');
-        
-        // Force a small delay before navigation
-        navigate('/dashboard', { replace: true });
+      if (response.data.success) {
+        alert('Registration successful! Please login.');
+        // You can add additional success handling here
       }
     } catch (error) {
-      console.error('Login error:', error);
-      setError(error.response?.data?.message || 'An error occurred during login');
+      console.error('Registration error:', error);
+      setError(
+        error.response?.data?.message || 
+        'Registration failed. Please try again.'
+      );
     } finally {
       setIsLoading(false);
     }
@@ -56,7 +45,7 @@ const Login = () => {
   return (
     <div className="login-container">
       <div className="login-card">
-        <h2>Welcome Back</h2>
+        <h2>Create Account</h2>
         {error && <div className="error-message" role="alert">{error}</div>}
         
         <form onSubmit={handleSubmit} noValidate>
@@ -84,14 +73,8 @@ const Login = () => {
               onChange={handleChange}
               required
               disabled={isLoading}
-              placeholder="Enter your password"
+              placeholder="Create a password"
             />
-          </div>
-
-          <div className="form-links">
-            <Link to="/forgot-password" className="forgot-password">
-              Forgot Password?
-            </Link>
           </div>
 
           <button 
@@ -102,15 +85,15 @@ const Login = () => {
             {isLoading ? (
               <>
                 <span className="loading-spinner"></span>
-                Signing in...
+                Creating Account...
               </>
             ) : (
-              'Sign In'
+              'Create Account'
             )}
           </button>
 
           <div className="register-link">
-            Don't have an account? <Link to="/register">Register here</Link>
+            Already have an account? <Link to="/login">Login here</Link>
           </div>
         </form>
       </div>
@@ -118,4 +101,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Registration;
