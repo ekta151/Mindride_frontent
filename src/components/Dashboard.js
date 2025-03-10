@@ -12,6 +12,8 @@ const Dashboard = () => {
   const [answers, setAnswers] = useState({});
   const [age, setAge] = useState("");
   const [step, setStep] = useState("age");
+  const [stressLevel, setStressLevel] = useState(null);
+  const [submissionStatusMessage, setSubmissionStatusMessage] = useState('');
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -72,11 +74,25 @@ const Dashboard = () => {
 
       if (response.status === 201) {
         console.log("User responses saved successfully!");
+        setSubmissionStatusMessage('Responses saved successfully!')
+
+        if (response.data.stressPercentage !== undefined) {
+          setStressLevel(response.data.stressPercentage);
+          console.log("Stress level percentage from response:", response.data.stressPercentage);
+        } else {
+          console.warn("Stress level percentage not found in the response.");
+          setStressLevel(null);
+        }
       } else {
         console.error("Failed to save user responses");
+        setSubmissionStatusMessage(`Error saving responses: ${response.statusText}`);
+        if (response.status === 401) {
+          console.error("Unauthorized - Token might be invalid or expired.");
+        }
       }
     } catch (error) {
       console.error("Error saving user responses:", error);
+      setSubmissionStatusMessage('Failed to save responses. Please try again.');
     }
   };
 
@@ -106,7 +122,18 @@ const Dashboard = () => {
     }
   };
 
+  const getStressCategory = (percentage) => {
+    if (percentage <= 30) {
+        return 'Low';
+    } else if (percentage <= 60) {
+        return 'Moderate';
+    } else {
+        return 'High';
+    }
+};
+
   const renderContent = () => {
+    console.log("Current stressLevel:", stressLevel);
     switch (activeTab) {
       case "home":
         return (
@@ -190,6 +217,19 @@ const Dashboard = () => {
                 <button onClick={handleSubmit} className="submit-button">
                   Submit Answers
                 </button>
+                {submissionStatusMessage && <p>{submissionStatusMessage}</p>}
+                {stressLevel !== null && (
+                    <div className="stress-level-display">
+                        <h2>Your Stress Level</h2>
+                        <p>Your calculated stress level is: <strong>{stressLevel}%</strong></p>
+                        <div>
+                            <p>Your stress level is: <strong>{getStressCategory(stressLevel)} ({stressLevel}%)</strong></p>
+                            {getStressCategory(stressLevel) === 'High' && (
+                                <p style={{ color: 'orange' }}>It's recommended to take some time to relax and de-stress.</p>
+                            )}
+                        </div>
+                    </div>
+                )}
               </>
             )}
           </div>
