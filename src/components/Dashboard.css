@@ -326,65 +326,98 @@
   color: rgba(12, 12, 12, 0.87);
 }
 
-/* Styles specifically for the "About Us" content-section */
-.content-section.about-us-section { /* Add class "about-us-section" to your About Us content-section in React */
-  background: rgba(241, 240, 240, 0.05); /* Slightly lighter background */
-  border: 1px solid rgba(103, 58, 183, 0.15); /* Subtle border */
-  border-radius: 15px; /* Slightly more rounded corners */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03); /* Very subtle shadow */
-  padding: 2.5rem; /* Slightly more padding */
+/* ------------------------------------------------------------------ */
+/*  MINIMALIST UI Styles for "About Us" content-section              */
+/*  No background colors, focus on typography and spacing            */
+/*  Apply class "about-us-section" to your ContentSection in React     */
+/* ------------------------------------------------------------------ */
+
+.content-section.about-us-section {
+    width: 80%;
+    max-width: 900px;
+    background-color: transparent; /* Remove background color */
+    padding: 30px;
+    border-radius: 0; /* Remove border-radius for a cleaner look */
+    box-shadow: none; /* Remove box-shadow */
+    margin-bottom: 2.5rem;
+    border: none; /* Remove border */
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left; /* Align text to the left within the section */
 }
 
-.content-section.about-us-section h2 { /* Style the title within About Us section */
-  color: #673AB7; /* Keep the purple for the title */
-  font-size: 1.7rem; /* Slightly larger title */
-  margin-bottom: 1.8rem;
-  font-weight: 600;
-  white-space: normal; /* Allow title to wrap if needed */
-  text-align: center; /* Center align the title */
+.about-us-content-container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; /* Stretch items to container width */
 }
 
-.content-section.about-us-section p { /* Style paragraphs within About Us section */
-  color: rgb(7, 7, 7); /* Keep slightly transparent white text */
-  font-size: 1.1rem; /* Slightly larger paragraph text */
-  line-height: 1.7; /* Improved line height for readability */
-  margin-bottom: 1.2rem; /* Spacing between paragraphs */
+.content-section.about-us-section h2 {
+    color: #6933A5; /* Dark grey/black for main heading */
+    text-align: center; /* Center align the main heading */
+    margin-bottom: 2rem;
+    font-size: 2.2rem; /* Slightly larger main heading */
+    font-weight: bold;
+    white-space: normal;
+    letter-spacing: -0.5px;
+    border-bottom: 2px solid #eee; /* Subtle bottom border for heading */
+    padding-bottom: 0.8rem; /* Spacing below heading border */
 }
 
-.content-section.about-us-section .about-us-content-container { /* Container for content layout */
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem; /* Spacing between content blocks */
-  align-items: center; /* Center content horizontally */
+.info-block {
+    background-color: transparent; /* Remove background color from info blocks */
+    padding: 0; /* Remove padding from info blocks */
+    margin: 20px 0; /* Increased vertical margin for info blocks */
+    border-radius: 0; /* Remove border-radius */
+    border: none; /* Remove border */
 }
 
-.content-section.about-us-section .info-block { /* Style for each info block (team, motive, etc.) */
-  text-align: center; /* Center text within info blocks */
-  max-width: 800px; /* Limit width for readability */
+.info-block h3 {
+    color: #f508d5; /* Slightly lighter dark grey for subheading */
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin-bottom: 0.8rem;
+    text-transform: none;
+    letter-spacing: -0.3px;
+    border-bottom: 1px solid #eee; /* Subtle bottom border for subheading */
+    padding-bottom: 0.5rem; /* Spacing below subheading border */
 }
 
-.content-section.about-us-section .info-block h3 { /* Style for info block titles (e.g., "Our Team") */
-  color: #e311b2; /* Lighter purple for sub-titles */
-  font-size: 1.3rem;
-  font-weight: 600;
-  margin-bottom: 0.8rem;
+.info-block p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: #080808; /* Medium grey for paragraph text */
+    text-align: left; /* Left align paragraph text */
+    margin-bottom: 1.5rem;
 }
 
-.content-section.about-us-section .contact-info { /* Style for contact information */
-  margin-top: 2rem;
-  font-size: 1.1rem;
-  color: #f00ae4; /* Light color for contact info */
+.contact-info {
+    margin-top: 30px; /* Increased top margin for contact info */
+    text-align: center; /* Center align contact info */
+    padding-top: 2rem; /* Add padding at the top of contact info */
+    border-top: 2px solid #eee; /* Top border to separate contact info */
 }
 
-.content-section.about-us-section .contact-info a { /* Style for contact links (phone, email) */
-  color: #1348a3; /* Light blue for links */
-  text-decoration: none; /* Remove underlines from links */
-  transition: color 0.3s ease;
+.contact-info h3 {
+    color: #f508d5; /* Subheading color for contact info */
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 0.8rem;
 }
 
-.content-section.about-us-section .contact-info a:hover { /* Hover effect for links */
-  color: #0a0b0b; /* Lighter blue on hover */
-  text-decoration: underline; /* Add underline on hover for clarity */
+.contact-info p {
+    font-size: 1.1rem;
+    color: #020202; /* Slightly lighter grey for contact info paragraphs */
+}
+
+.contact-info a {
+    color: #051472; /* Standard blue for links */
+    text-decoration: none;
+    font-weight: normal; /* Regular font weight for links */
+}
+
+.contact-info a:hover {
+    text-decoration: underline;
 }
 
 /* Hero Section Styles */
@@ -677,7 +710,7 @@
               0 0 40px rgba(103, 58, 183, 0.2),
               inset 0 0 20px rgba(103, 58, 183, 0.2);
   animation: buttonGlow 2s infinite;
-  gap: 100px;
+  gap: qpx;
 }
 
 @keyframes buttonGlow {
@@ -695,9 +728,6 @@
     box-shadow: 0 0 20px rgba(103, 58, 183, 0.4),
                 0 0 40px rgba(103, 58, 183, 0.2),
                 inset 0 0 20px rgba(103, 58, 183, 0.2);
-  }
-  gap{
-    gap: 20px;
   }
 }
 

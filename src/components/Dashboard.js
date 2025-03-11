@@ -422,12 +422,46 @@ const Dashboard = () => {
         );
       case "about us":
         return (
-          <div className="content-section">
-            <h2>About Us</h2>
-            <p>
-              We are a team of developers who are passionate about creating
-              tools that help people manage their stress levels.
-            </p>
+          <div className="content-section about-us-section">
+            <div className="about-us-content-container">
+              <h2>About Our Stress Management Team</h2>
+
+              <div className="info-block team-info">
+                <h3>Our Team</h3>
+                <p>
+                  We are a dedicated team of professionals passionate about helping individuals
+                  manage stress and improve their well-being. Our team includes therapists,
+                  counselors, and wellness experts with years of experience in stress management techniques.
+                </p>
+              </div>
+
+              <div className="info-block motive-info">
+                <h3>Our Motive</h3>
+                <p>
+                  Our motive is to empower you to take control of your stress and live a more balanced
+                  and fulfilling life. We believe that everyone deserves access to effective stress
+                  management tools and support.
+                </p>
+              </div>
+
+              <div className="info-block aim-info">
+                <h3>Our Aim</h3>
+                <p>
+                  Our aim is to provide you with practical, evidence-based strategies and resources
+                  to reduce stress, enhance resilience, and promote mental and emotional well-being.
+                  We strive to create a supportive and accessible platform for stress management.
+                </p>
+              </div>
+
+              <div className="contact-info">
+                <h3>Contact Us</h3>
+                <p>Have questions or need support? Reach out to us! </p>
+                <p>
+                  Phone:
+                  <a href="tel:+15551234567">+1-555-123-4567</a>
+                </p>
+              </div>
+            </div>
           </div>
         );
       default:
