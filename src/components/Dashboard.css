@@ -323,7 +323,9 @@
 }
 
 .content-section p {
-  color: rgba(12, 12, 12, 0.87);
+  color: r
+  
+  gba(12, 12, 12, 0.87);
 }
 
 .content-section.about-us-section {
