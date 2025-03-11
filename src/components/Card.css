@@ -46,16 +46,6 @@
 /* } */ 
 
 .question-card {
-  /* ... existing question-card styles ... */
-
-  /* REMOVE these lines to revert to rectangular shape: */
-  /* width: 300px;
-  height: 300px;
-  max-width: 100%;
-  height: auto;
-  aspect-ratio: 1 / 1; */
-
-  /* Keep other styles like border-radius, background, padding, etc. */
-
   color: black; 
+  
 }
