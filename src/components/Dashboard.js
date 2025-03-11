@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Dashboard.css";
+import Card from './Card';
+import './Card';
 
 const Dashboard = () => {
   const [userData, setUserData] = useState(null);
@@ -14,6 +16,7 @@ const Dashboard = () => {
   const [step, setStep] = useState("age");
   const [stressLevel, setStressLevel] = useState(null);
   const [submissionStatusMessage, setSubmissionStatusMessage] = useState('');
+  const [userStressCategory, setUserStressCategory] = useState(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -59,6 +62,7 @@ const Dashboard = () => {
   };
 
   const handleSubmit = async () => {
+    console.log("handleSubmit function called!");
     try {
       const response = await axios.post(
         "http://localhost:5000/api/user-responses",
@@ -72,13 +76,21 @@ const Dashboard = () => {
         }
       );
 
+      console.log("API Response Status:", response.status);
+
       if (response.status === 201) {
         console.log("User responses saved successfully!");
-        setSubmissionStatusMessage('Responses saved successfully!')
+        setSubmissionStatusMessage('Responses saved successfully!');
 
         if (response.data.stressPercentage !== undefined) {
+          console.log("Stress percentage from response:", response.data.stressPercentage);
           setStressLevel(response.data.stressPercentage);
-          console.log("Stress level percentage from response:", response.data.stressPercentage);
+          console.log("Stress level state updated:", response.data.stressPercentage);
+          setStep("results");
+          console.log("Step state updated to results");
+          const category = getStressCategory(response.data.stressPercentage);
+          setUserStressCategory(category);
+          console.log("User stress category set to:", category);
         } else {
           console.warn("Stress level percentage not found in the response.");
           setStressLevel(null);
@@ -132,8 +144,18 @@ const Dashboard = () => {
     }
 };
 
+  const handleGoBackToQuestions = () => {
+    setStep("questions");
+  };
+
+  const handleRecommendationClick = () => {
+    setActiveTab("recommendation");
+    console.log("Recommendation tab clicked. userStressCategory is:", userStressCategory);
+  };
+
   const renderContent = () => {
-    console.log("Current stressLevel:", stressLevel);
+    console.log("Current activeTab:", activeTab);
+    console.log("Current userStressCategory in renderContent:", userStressCategory);
     switch (activeTab) {
       case "home":
         return (
@@ -214,24 +236,168 @@ const Dashboard = () => {
                   </div>
                 ))}
 
-                <button onClick={handleSubmit} className="submit-button">
+                <button
+                  onClick={handleSubmit}
+                  className="submit-button"
+                  disabled={Object.keys(answers).length !== questions.length}
+                >
                   Submit Answers
                 </button>
                 {submissionStatusMessage && <p>{submissionStatusMessage}</p>}
-                {stressLevel !== null && (
-                    <div className="stress-level-display">
-                        <h2>Your Stress Level</h2>
-                        <p>Your calculated stress level is: <strong>{stressLevel}%</strong></p>
-                        <div>
-                            <p>Your stress level is: <strong>{getStressCategory(stressLevel)} ({stressLevel}%)</strong></p>
-                            {getStressCategory(stressLevel) === 'High' && (
-                                <p style={{ color: 'orange' }}>It's recommended to take some time to relax and de-stress.</p>
-                            )}
-                        </div>
-                    </div>
-                )}
               </>
             )}
+
+            {step === "results" && (
+              <div className="stress-card question-card">
+                <div className="stress-level-display">
+                  <h2 className="question-text">Your Stress Level</h2>
+                  <p className="stress-text">
+                    Your calculated stress level is: <strong>{stressLevel}%</strong>
+                  </p>
+                  <div>
+                    <p className="stress-category-text">
+                      Your stress level is:{" "}
+                      <strong>
+                        {getStressCategory(stressLevel)}
+                      </strong>
+                    </p>
+                  </div>
+                </div>
+                <div className="button-container">
+                  <button
+                    onClick={handleGoBackToQuestions}
+                    className="submit-button"
+                  >
+                    « Back to Questions
+                  </button>
+                  <button
+                    onClick={handleRecommendationClick}
+                    className="submit-button"
+                  >
+                    Get Recommendation 🧘
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      case "recommendation":
+        console.log("Checking Card import:");
+        console.log("Type of Card:", typeof Card);
+        console.log("Card:", Card);
+        return (
+          <div className="content-section recommendation-section">
+            <h2>Recommended Activities for {userStressCategory} Stress Level</h2>
+            <div className="recommendation-cards-container">
+              {userStressCategory === 'Low' && (
+                <>
+                  <Card
+                    title="Low Stress - Card 1"
+                    description="Recommendation for low stress level - Activity 1."
+                    buttonText="Start"
+                    onClick={() => console.log("Low Stress Card 1 Clicked")}
+                    cardClass="question-card low-card-1"
+                    buttonClass="submit-button"
+                  />
+                  <Card
+                    title="Low Stress - Card 2"
+                    description="Recommendation for low stress level - Activity 2."
+                    buttonText="Start"
+                    onClick={() => console.log("Low Stress Card 2 Clicked")}
+                    cardClass="question-card low-card-2"
+                    buttonClass="submit-button"
+                  />
+                  <Card
+                    title="Low Stress - Card 3"
+                    description="Recommendation for low stress level - Activity 3."
+                    buttonText="Start"
+                    onClick={() => console.log("Low Stress Card 3 Clicked")}
+                    cardClass="question-card low-card-3"
+                    buttonClass="submit-button"
+                  />
+                  <Card
+                    title="Low Stress - Card 4"
+                    description="Recommendation for low stress level - Activity 4."
+                    buttonText="Start"
+                    onClick={() => console.log("Low Stress Card 4 Clicked")}
+                    cardClass="question-card low-card-4"
+                    buttonClass="submit-button"
+                  />
+                </>
+              )}
+              {userStressCategory === 'Moderate' && (
+                <>
+                  <Card
+                    title="Moderate Stress - Card 1"
+                    description="Recommendation for moderate stress level - Activity 1."
+                    buttonText="Start"
+                    onClick={() => console.log("Moderate Stress Card 1 Clicked")}
+                    cardClass="question-card moderate-card-1"
+                    buttonClass="submit-button"
+                  />
+                  <Card
+                    title="Moderate Stress - Card 2"
+                    description="Recommendation for moderate stress level - Activity 2."
+                    buttonText="Start"
+                    onClick={() => console.log("Moderate Stress Card 2 Clicked")}
+                    cardClass="question-card moderate-card-2"
+                    buttonClass="submit-button"
+                  />
+                  <Card
+                    title="Moderate Stress - Card 3"
+                    description="Recommendation for moderate stress level - Activity 3."
+                    buttonText="Start"
+                    onClick={() => console.log("Moderate Stress Card 3 Clicked")}
+                    cardClass="question-card moderate-card-3"
+                    buttonClass="submit-button"
+                  />
+                  <Card
+                    title="Moderate Stress - Card 4"
+                    description="Recommendation for moderate stress level - Activity 4."
+                    buttonText="Start"
+                    onClick={() => console.log("Moderate Stress Card 4 Clicked")}
+                    cardClass="question-card moderate-card-4"
+                    buttonClass="submit-button"
+                  />
+                </>
+              )}
+              {userStressCategory === 'High' && (
+                <>
+                  <Card
+                    title="High Stress - Card 1"
+                    description="Recommendation for high stress level - Activity 1."
+                    buttonText="Start"
+                    onClick={() => console.log("High Stress Card 1 Clicked")}
+                    cardClass="question-card high-card-1"
+                    buttonClass="submit-button"
+                  />
+                  <Card
+                    title="High Stress - Card 2"
+                    description="Recommendation for high stress level - Activity 2."
+                    buttonText="Start"
+                    onClick={() => console.log("High Stress Card 2 Clicked")}
+                    cardClass="question-card high-card-2"
+                    buttonClass="submit-button"
+                  />
+                  <Card
+                    title="High Stress - Card 3"
+                    description="Recommendation for high stress level - Activity 3."
+                    buttonText="Start"
+                    onClick={() => console.log("High Stress Card 3 Clicked")}
+                    cardClass="question-card high-card-3"
+                    buttonClass="submit-button"
+                  />
+                  <Card
+                    title="High Stress - Card 4"
+                    description="Recommendation for high stress level - Activity 4."
+                    buttonText="Start"
+                    onClick={() => console.log("High Stress Card 4 Clicked")}
+                    cardClass="question-card high-card-4"
+                    buttonClass="submit-button"
+                  />
+                </>
+              )}
+            </div>
           </div>
         );
       case "account":

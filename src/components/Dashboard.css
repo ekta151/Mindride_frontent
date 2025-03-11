@@ -225,7 +225,7 @@
   }
 }
 
-.nav-item svg, 
+.nav-item svg,
 .nav-item img,
 .logout-button svg,
 .logout-button img {
@@ -323,7 +323,68 @@
 }
 
 .content-section p {
-  color: rgba(255, 255, 255, 0.87);
+  color: rgba(12, 12, 12, 0.87);
+}
+
+/* Styles specifically for the "About Us" content-section */
+.content-section.about-us-section { /* Add class "about-us-section" to your About Us content-section in React */
+  background: rgba(241, 240, 240, 0.05); /* Slightly lighter background */
+  border: 1px solid rgba(103, 58, 183, 0.15); /* Subtle border */
+  border-radius: 15px; /* Slightly more rounded corners */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03); /* Very subtle shadow */
+  padding: 2.5rem; /* Slightly more padding */
+}
+
+.content-section.about-us-section h2 { /* Style the title within About Us section */
+  color: #673AB7; /* Keep the purple for the title */
+  font-size: 1.7rem; /* Slightly larger title */
+  margin-bottom: 1.8rem;
+  font-weight: 600;
+  white-space: normal; /* Allow title to wrap if needed */
+  text-align: center; /* Center align the title */
+}
+
+.content-section.about-us-section p { /* Style paragraphs within About Us section */
+  color: rgb(7, 7, 7); /* Keep slightly transparent white text */
+  font-size: 1.1rem; /* Slightly larger paragraph text */
+  line-height: 1.7; /* Improved line height for readability */
+  margin-bottom: 1.2rem; /* Spacing between paragraphs */
+}
+
+.content-section.about-us-section .about-us-content-container { /* Container for content layout */
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* Spacing between content blocks */
+  align-items: center; /* Center content horizontally */
+}
+
+.content-section.about-us-section .info-block { /* Style for each info block (team, motive, etc.) */
+  text-align: center; /* Center text within info blocks */
+  max-width: 800px; /* Limit width for readability */
+}
+
+.content-section.about-us-section .info-block h3 { /* Style for info block titles (e.g., "Our Team") */
+  color: #e311b2; /* Lighter purple for sub-titles */
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+}
+
+.content-section.about-us-section .contact-info { /* Style for contact information */
+  margin-top: 2rem;
+  font-size: 1.1rem;
+  color: #f00ae4; /* Light color for contact info */
+}
+
+.content-section.about-us-section .contact-info a { /* Style for contact links (phone, email) */
+  color: #1348a3; /* Light blue for links */
+  text-decoration: none; /* Remove underlines from links */
+  transition: color 0.3s ease;
+}
+
+.content-section.about-us-section .contact-info a:hover { /* Hover effect for links */
+  color: #0a0b0b; /* Lighter blue on hover */
+  text-decoration: underline; /* Add underline on hover for clarity */
 }
 
 /* Hero Section Styles */
@@ -431,7 +492,7 @@
     padding: 0.3rem 0.6rem;
     font-size: 0.8rem;
   }
-  
+
   .brand-name {
     font-size: 1.2rem;
   }
@@ -616,6 +677,7 @@
               0 0 40px rgba(103, 58, 183, 0.2),
               inset 0 0 20px rgba(103, 58, 183, 0.2);
   animation: buttonGlow 2s infinite;
+  gap: 100px;
 }
 
 @keyframes buttonGlow {
@@ -633,6 +695,9 @@
     box-shadow: 0 0 20px rgba(103, 58, 183, 0.4),
                 0 0 40px rgba(103, 58, 183, 0.2),
                 inset 0 0 20px rgba(103, 58, 183, 0.2);
+  }
+  gap{
+    gap: 20px;
   }
 }
 
@@ -652,6 +717,7 @@
   transform: none;
   box-shadow: none;
   animation: none;
+  gap: 50px;
 }
 
 /* Option buttons with matching glow */
@@ -961,6 +1027,7 @@
   margin-top: 2rem;
   display: flex;
   justify-content: center;
+  
 }
 
 .recommendation-button {
@@ -990,6 +1057,7 @@
 
 .button-icon {
   font-size: 1.5rem;
+  gap:20 px;
 }
 
 .button-text {
@@ -1017,6 +1085,7 @@
 .recommendation-button:hover .button-arrow {
   transform: translateX(5px);
 }
+
 
 .age-prompt-container {
   background-color: white;
@@ -1193,3 +1262,66 @@
     font-size: 1rem;
   }
 }
+
+/* Style for the "User Account" nav-item to accommodate user info */
+.nav-item.user-account-tab {
+  flex-direction: row; /* Keep as row or change to column depending on layout */
+  justify-content: flex-start; /* Align content to the start */
+  padding: 0.3rem 0.6rem; /* Adjust padding to fit content */
+  min-width: auto; /* Allow width to adjust to content */
+}
+
+.nav-item.user-account-tab:hover {
+  /* ... existing hover styles ... */
+}
+
+.nav-item.user-account-tab.active {
+  /* ... existing active styles ... */
+}
+
+/* Style for the user email text within the tab */
+.nav-item.user-account-tab .user-email-display {
+  color: #e0f7fa; /* Light, subtle text color for email */
+  font-size: 0.8rem; /* Smaller font size for email */
+  font-weight: 500;
+  margin-left: 0.2rem; /* Add a little space from the icon (if you have one) */
+  overflow: hidden;        /* To handle long emails */
+  text-overflow: ellipsis; /* Ellipsis for very long emails */
+  white-space: nowrap;    /* Prevent wrapping */
+  max-width: 150px;       /* Limit width of email display - adjust as needed */
+}
+
+/* Style for the user avatar icon (if you add one) */
+.nav-item.user-account-tab .user-avatar {
+  height: 24px; /* Example avatar size - adjust as needed */
+  width: 24px;
+  border-radius: 50%; /* Make it circular */
+  margin-right: 0.3rem; /* Space between avatar and email/text */
+  /* You might want to add border or other avatar specific styling */
+}
+
+/* Tooltip styles (for hover - optional, might need JS for functionality) */
+.nav-item.user-account-tab .tooltip {
+  visibility: hidden;
+  width: 200px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px;
+  position: absolute; /* Or fixed, relative */
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -100px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.nav-item.user-account-tab:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+
+ 
