@@ -326,12 +326,6 @@
   color: rgba(12, 12, 12, 0.87);
 }
 
-/* ------------------------------------------------------------------ */
-/*  MINIMALIST UI Styles for "About Us" content-section              */
-/*  No background colors, focus on typography and spacing            */
-/*  Apply class "about-us-section" to your ContentSection in React     */
-/* ------------------------------------------------------------------ */
-
 .content-section.about-us-section {
     width: 80%;
     max-width: 900px;
@@ -1301,13 +1295,7 @@
   min-width: auto; /* Allow width to adjust to content */
 }
 
-.nav-item.user-account-tab:hover {
-  /* ... existing hover styles ... */
-}
 
-.nav-item.user-account-tab.active {
-  /* ... existing active styles ... */
-}
 
 /* Style for the user email text within the tab */
 .nav-item.user-account-tab .user-email-display {
