@@ -6,6 +6,7 @@ import Card from './Card';
 import './Card';
 import BreathingExercise from './BreathingExercise'; // Import the BreathingExercise component
 import MusicPlayer from './MusicPlayer';
+import BookList from './BookList'; // Import BookList component
 
 const Dashboard = () => {
   const [userData, setUserData] = useState(null);
@@ -20,6 +21,8 @@ const Dashboard = () => {
   const [submissionStatusMessage, setSubmissionStatusMessage] = useState('');
   const [userStressCategory, setUserStressCategory] = useState(null);
   const [isMusicPlayerExpanded, setIsMusicPlayerExpanded] = useState(false);
+  const [isBookListExpanded, setIsBookListExpanded] = useState(false);
+  const [isBreathingExerciseExpanded, setIsBreathingExerciseExpanded] = useState(false); // New state for BreathingExercise
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -154,6 +157,10 @@ const Dashboard = () => {
   const handleCardButtonClick = (cardType) => {
     if (cardType === 'music') {
         setIsMusicPlayerExpanded(!isMusicPlayerExpanded);
+    } else if (cardType === 'books') {
+        setIsBookListExpanded(!isBookListExpanded);
+    } else if (cardType === 'breathingExercise') {
+        setIsBreathingExerciseExpanded(!isBreathingExerciseExpanded); // Toggle BreathingExercise expansion
     } else {
         console.log(`Card button clicked for: ${cardType}`);
     }
@@ -304,13 +311,13 @@ const Dashboard = () => {
                 <>
                   <Card
                     title="Breathing Exercise"
-                    description="Gentle breathing exercise to calm your mind."
-                    buttonText="Start"
+                    description="Click to {isBreathingExerciseExpanded ? 'collapse' : 'expand'} the breathing exercise." // Dynamic description
+                    buttonText={isBreathingExerciseExpanded ? "Collapse Exercise" : "Start Exercise"} // Dynamic button text
                     cardClass="question-card low-card-1 breathing-exercise-card"
                     buttonClass="submit-button"
-
+                    onClick={() => handleCardButtonClick('breathingExercise')} // Handle BreathingExercise card click
                   >
-                    <BreathingExercise />
+                    {isBreathingExerciseExpanded && <BreathingExercise />} {/* Conditionally render BreathingExercise */}
                   </Card>
                   <Card
                     title="Low Stress - Card 2"
@@ -342,7 +349,7 @@ const Dashboard = () => {
                 <>
                   <Card
                     title="Relaxing Music"
-                    description="Recommendation for moderate stress level - Activity 2."
+                    description="Click to {isMusicPlayerExpanded ? 'collapse' : 'expand'} and listen to calming music."
                     buttonText={isMusicPlayerExpanded ? "Collapse Music Player" : "Play Music"}
                     cardClass="question-card moderate-card-1"
                     buttonClass="submit-button"
@@ -351,13 +358,15 @@ const Dashboard = () => {
                     {isMusicPlayerExpanded && <MusicPlayer />}
                   </Card>
                   <Card
-                    title="Moderate Stress - Card 2"
-                    description="Recommendation for moderate stress level - Activity 2."
-                    buttonText="Start"
-                    onClick={() => console.log("Moderate Stress Card 2 Clicked")}
-                    cardClass="question-card moderate-card-2"
+                    title="Read a Book"
+                    description="Click to {isBookListExpanded ? 'collapse' : 'expand'} and browse books."
+                    buttonText={isBookListExpanded ? "Collapse Book List" : "Browse Books"} // Dynamic button text for books
+                    cardClass="question-card moderate-card-2" // Using moderate-card-2 as you mentioned "medium card 1" earlier, assuming it was a typo and meant card 2
                     buttonClass="submit-button"
-                  />
+                    onClick={() => handleCardButtonClick('books')} // Handle book card click
+                  >
+                    {isBookListExpanded && <BookList />} {/* Conditionally render BookList */}
+                  </Card>
                   <Card
                     title="Moderate Stress - Card 3"
                     description="Recommendation for moderate stress level - Activity 3."
