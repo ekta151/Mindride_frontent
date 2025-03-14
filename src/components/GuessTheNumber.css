@@ -1,0 +1,41 @@
+.guess-number-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f4f4f4; /* Light grey background */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.guess-input {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #344997;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 150px;
+    text-align: center;
+}
+
+.guess-button {
+    padding: 10px 20px;
+    background-color: #266cd6; /* Green button */
+    color: white;
+    border: none;
+    border-radius: 8px; /* Rounded corners */
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.guess-button:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+.guess-message {
+    margin-top: 15px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+} 

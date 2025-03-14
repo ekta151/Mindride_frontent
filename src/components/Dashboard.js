@@ -7,6 +7,7 @@ import './Card';
 import BreathingExercise from './BreathingExercise'; // Import the BreathingExercise component
 import MusicPlayer from './MusicPlayer';
 import BookList from './BookList'; // Import BookList component
+import GuessTheNumber from './GuessTheNumber'; // Import GuessTheNumber component
 
 const Dashboard = () => {
   const [userData, setUserData] = useState(null);
@@ -23,6 +24,7 @@ const Dashboard = () => {
   const [isMusicPlayerExpanded, setIsMusicPlayerExpanded] = useState(false);
   const [isBookListExpanded, setIsBookListExpanded] = useState(false);
   const [isBreathingExerciseExpanded, setIsBreathingExerciseExpanded] = useState(false); // New state for BreathingExercise
+  const [isGuessTheNumberExpanded, setIsGuessTheNumberExpanded] = useState(false); // New state for GuessTheNumber
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -161,6 +163,8 @@ const Dashboard = () => {
         setIsBookListExpanded(!isBookListExpanded);
     } else if (cardType === 'breathingExercise') {
         setIsBreathingExerciseExpanded(!isBreathingExerciseExpanded); // Toggle BreathingExercise expansion
+    } else if (cardType === 'guessTheNumber') {
+        setIsGuessTheNumberExpanded(!isGuessTheNumberExpanded); // Toggle GuessTheNumber expansion
     } else {
         console.log(`Card button clicked for: ${cardType}`);
     }
@@ -320,27 +324,30 @@ const Dashboard = () => {
                     {isBreathingExerciseExpanded && <BreathingExercise />} {/* Conditionally render BreathingExercise */}
                   </Card>
                   <Card
-                    title="Low Stress - Card 2"
-                    description="Recommendation for low stress level - Activity 2."
-                    buttonText="Start"
-                    onClick={() => console.log("Low Stress Card 2 Clicked")}
-                    cardClass="question-card low-card-2"
-                    buttonClass="submit-button"
-                  />
-                  <Card
-                    title="Low Stress - Card 3"
+                    title="card 3"
                     description="Recommendation for low stress level - Activity 3."
                     buttonText="Start"
-                    onClick={() => console.log("Low Stress Card 3 Clicked")}
-                    cardClass="question-card low-card-3"
+                    cardClass="question-card low-card-2"
                     buttonClass="submit-button"
-                  />
+                    onClick={() => console.log("Low Stress Card 3 Clicked")}
+                  >
+                  </Card>
+                  <Card
+                    title="card 3"
+                    description="Recommendation for low stress level - Activity 3."
+                    buttonText="Start"
+                    cardClass="question-card low-card-2"
+                    buttonClass="submit-button"
+                    onClick={() => console.log("Low Stress Card 3 Clicked")}
+                  >
+                  
+                  </Card>
                   <Card
                     title="Low Stress - Card 4"
                     description="Recommendation for low stress level - Activity 4."
                     buttonText="Start"
-                    onClick={() => console.log("Low Stress Card 4 Clicked")}
-                    cardClass="question-card low-card-4"
+                    onClick={() => console.log("Low Stress Card 3 Clicked")}
+                    cardClass="question-card low-card-3"
                     buttonClass="submit-button"
                   />
                 </>
@@ -368,21 +375,25 @@ const Dashboard = () => {
                     {isBookListExpanded && <BookList />} {/* Conditionally render BookList */}
                   </Card>
                   <Card
-                    title="Moderate Stress - Card 3"
-                    description="Recommendation for moderate stress level - Activity 3."
-                    buttonText="Start"
-                    onClick={() => console.log("Moderate Stress Card 3 Clicked")}
+                    title="Guess the Number Game"
+                    description="Test your intutions"
+                    buttonText={isGuessTheNumberExpanded ? "Collapse Game" : "Play Game"}
                     cardClass="question-card moderate-card-3"
                     buttonClass="submit-button"
-                  />
+                    onClick={() => handleCardButtonClick('guessTheNumber')}
+                  >
+                    {isGuessTheNumberExpanded && <GuessTheNumber />}
+                  </Card>
                   <Card
-                    title="Moderate Stress - Card 4"
-                    description="Recommendation for moderate stress level - Activity 4."
-                    buttonText="Start"
-                    onClick={() => console.log("Moderate Stress Card 4 Clicked")}
-                    cardClass="question-card moderate-card-4"
+                    title="Breathing Exercise"
+                    description="Click to {isBreathingExerciseExpanded ? 'collapse' : 'expand'} the breathing exercise." // Dynamic description
+                    buttonText={isBreathingExerciseExpanded ? "Collapse Exercise" : "Start Exercise"} // Dynamic button text
+                    cardClass="question-card low-card-1 breathing-exercise-card"
                     buttonClass="submit-button"
-                  />
+                    onClick={() => handleCardButtonClick('breathingExercise')} // Handle Breat
+                  >
+                      {isBreathingExerciseExpanded && <BreathingExercise />} {/* Conditionally render BreathingExercise */}
+                  </Card>
                 </>
               )}
               {userStressCategory === 'High' && (
