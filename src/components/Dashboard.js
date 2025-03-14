@@ -4,6 +4,8 @@ import axios from "axios";
 import "./Dashboard.css";
 import Card from './Card';
 import './Card';
+import BreathingExercise from './BreathingExercise'; // Import the BreathingExercise component
+import MusicPlayer from './MusicPlayer';
 
 const Dashboard = () => {
   const [userData, setUserData] = useState(null);
@@ -17,6 +19,7 @@ const Dashboard = () => {
   const [stressLevel, setStressLevel] = useState(null);
   const [submissionStatusMessage, setSubmissionStatusMessage] = useState('');
   const [userStressCategory, setUserStressCategory] = useState(null);
+  const [isMusicPlayerExpanded, setIsMusicPlayerExpanded] = useState(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -135,9 +138,9 @@ const Dashboard = () => {
   };
 
   const getStressCategory = (percentage) => {
-    if (percentage <= 30) {
+    if (percentage <= 50) {
         return 'Low';
-    } else if (percentage <= 60) {
+    } else if (percentage <= 70) {
         return 'Moderate';
     } else {
         return 'High';
@@ -146,6 +149,14 @@ const Dashboard = () => {
 
   const handleGoBackToQuestions = () => {
     setStep("questions");
+  };
+
+  const handleCardButtonClick = (cardType) => {
+    if (cardType === 'music') {
+        setIsMusicPlayerExpanded(!isMusicPlayerExpanded);
+    } else {
+        console.log(`Card button clicked for: ${cardType}`);
+    }
   };
 
   const handleRecommendationClick = () => {
@@ -264,7 +275,7 @@ const Dashboard = () => {
                   </div>
                 </div>
                 <div className="button-container">
-                  <button
+                  <button 
                     onClick={handleGoBackToQuestions}
                     className="submit-button"
                   >
@@ -292,13 +303,15 @@ const Dashboard = () => {
               {userStressCategory === 'Low' && (
                 <>
                   <Card
-                    title="Low Stress - Card 1"
-                    description="Recommendation for low stress level - Activity 1."
+                    title="Breathing Exercise"
+                    description="Gentle breathing exercise to calm your mind."
                     buttonText="Start"
-                    onClick={() => console.log("Low Stress Card 1 Clicked")}
-                    cardClass="question-card low-card-1"
+                    cardClass="question-card low-card-1 breathing-exercise-card"
                     buttonClass="submit-button"
-                  />
+
+                  >
+                    <BreathingExercise />
+                  </Card>
                   <Card
                     title="Low Stress - Card 2"
                     description="Recommendation for low stress level - Activity 2."
@@ -328,13 +341,15 @@ const Dashboard = () => {
               {userStressCategory === 'Moderate' && (
                 <>
                   <Card
-                    title="Moderate Stress - Card 1"
-                    description="Recommendation for moderate stress level - Activity 1."
-                    buttonText="Start"
-                    onClick={() => console.log("Moderate Stress Card 1 Clicked")}
+                    title="Relaxing Music"
+                    description="Recommendation for moderate stress level - Activity 2."
+                    buttonText={isMusicPlayerExpanded ? "Collapse Music Player" : "Play Music"}
                     cardClass="question-card moderate-card-1"
                     buttonClass="submit-button"
-                  />
+                    onClick={() => handleCardButtonClick('music')}
+                  >
+                    {isMusicPlayerExpanded && <MusicPlayer />}
+                  </Card>
                   <Card
                     title="Moderate Stress - Card 2"
                     description="Recommendation for moderate stress level - Activity 2."
@@ -526,6 +541,15 @@ const Dashboard = () => {
               onClick={handleClick}
             >
               🧘 Recommendation
+            </button>
+            <button
+              className={`nav-item ${
+                activeTab === "friend" ? "active" : ""
+              }`}
+              data-tab="friend"
+              onClick={handleClick}
+            >
+              👥 Friend
             </button>
             <button
               className={`nav-item ${activeTab === "about us" ? "active" : ""}`}

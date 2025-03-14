@@ -1,0 +1,96 @@
+/* MusicPlayer.css */
+
+.music-player-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f9f9f9; /* Light grey background */
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    width: 90%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.music-playlist {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.music-playlist ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.music-playlist li {
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.music-playlist li:last-child {
+    border-bottom: none;
+}
+
+.music-playlist li:hover,
+.music-playlist li.active {
+    background-color: #e0e0e0;
+}
+
+.music-playlist li.active {
+    font-weight: bold;
+}
+
+.music-player-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.music-player-controls button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.music-player-controls button:hover {
+    background-color: #0056b3;
+}
+
+.music-progress-bar {
+    width: 100%;
+    height: 8px;
+    background-color: #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.music-progress {
+    height: 100%;
+    width: 0%; /* Updated dynamically by JS */
+    background-color: #007bff;
+    border-radius: 4px;
+}
+
+.music-volume-control {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.music-volume-control input[type="range"] {
+    flex-grow: 1;
+    margin-left: 10px;
+} 
