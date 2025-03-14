@@ -8,6 +8,7 @@ import BreathingExercise from './BreathingExercise'; // Import the BreathingExer
 import MusicPlayer from './MusicPlayer';
 import BookList from './BookList'; // Import BookList component
 import GuessTheNumber from './GuessTheNumber'; // Import GuessTheNumber component
+import RockPaperScissors from './RockPaperScissors'; // Import RockPaperScissors component
 
 const Dashboard = () => {
   const [userData, setUserData] = useState(null);
@@ -25,6 +26,10 @@ const Dashboard = () => {
   const [isBookListExpanded, setIsBookListExpanded] = useState(false);
   const [isBreathingExerciseExpanded, setIsBreathingExerciseExpanded] = useState(false); // New state for BreathingExercise
   const [isGuessTheNumberExpanded, setIsGuessTheNumberExpanded] = useState(false); // New state for GuessTheNumber
+  const [geetaThought, setGeetaThought] = useState(null);
+  const [geetaThoughtLoading, setGeetaThoughtLoading] = useState(false);
+  const [geetaThoughtError, setGeetaThoughtError] = useState(null);
+  const [isRockPaperScissorsExpanded, setIsRockPaperScissorsExpanded] = useState(false); // New state for RockPaperScissors
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -56,6 +61,26 @@ const Dashboard = () => {
 
     fetchUserData();
   }, [navigate]);
+
+  useEffect(() => {
+    const fetchGeetaThought = async () => {
+      setGeetaThoughtLoading(true);
+      setGeetaThoughtError(null);
+      try {
+        console.log("Fetching Geeta thought...");
+        const response = await axios.get('http://localhost:5000/api/thought');
+        console.log("Geeta thought response:", response);
+        setGeetaThought(response.data.text);
+      } catch (error) {
+        console.error("Error fetching Geeta thought:", error);
+        setGeetaThoughtError(error);
+      } finally {
+        setGeetaThoughtLoading(false);
+      }
+    };
+
+    fetchGeetaThought();
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -143,9 +168,9 @@ const Dashboard = () => {
   };
 
   const getStressCategory = (percentage) => {
-    if (percentage <= 50) {
+    if (percentage <= 45) {
         return 'Low';
-    } else if (percentage <= 70) {
+    } else if (percentage <= 60) {
         return 'Moderate';
     } else {
         return 'High';
@@ -165,6 +190,8 @@ const Dashboard = () => {
         setIsBreathingExerciseExpanded(!isBreathingExerciseExpanded); // Toggle BreathingExercise expansion
     } else if (cardType === 'guessTheNumber') {
         setIsGuessTheNumberExpanded(!isGuessTheNumberExpanded); // Toggle GuessTheNumber expansion
+    } else if (cardType === 'rockPaperScissors') {
+        setIsRockPaperScissorsExpanded(!isRockPaperScissorsExpanded); // Toggle RockPaperScissors expansion
     } else {
         console.log(`Card button clicked for: ${cardType}`);
     }
@@ -324,24 +351,25 @@ const Dashboard = () => {
                     {isBreathingExerciseExpanded && <BreathingExercise />} {/* Conditionally render BreathingExercise */}
                   </Card>
                   <Card
-                    title="card 3"
-                    description="Recommendation for low stress level - Activity 3."
-                    buttonText="Start"
+                    title="Rock Paper Scissors"
+                    description="Challenge the computer to a game of Rock Paper Scissors!"
+                    buttonText={isRockPaperScissorsExpanded ? "Collapse Game" : "Play Game"}
                     cardClass="question-card low-card-2"
                     buttonClass="submit-button"
-                    onClick={() => console.log("Low Stress Card 3 Clicked")}
+                    onClick={() => handleCardButtonClick('rockPaperScissors')} // Handle RockPaperScissors card click
                   >
+                    {isRockPaperScissorsExpanded && <RockPaperScissors />}
                   </Card>
                   <Card
-                    title="card 3"
-                    description="Recommendation for low stress level - Activity 3."
-                    buttonText="Start"
-                    cardClass="question-card low-card-2"
-                    buttonClass="submit-button"
-                    onClick={() => console.log("Low Stress Card 3 Clicked")}
-                  >
-                  
-                  </Card>
+                     title="Guess the Number Game"
+                     description="Test your intutions.Choose a random number"
+                     buttonText={isGuessTheNumberExpanded ? "Collapse Game" : "Play Game"}
+                     cardClass="question-card moderate-card-3"
+                     buttonClass="submit-button"
+                     onClick={() => handleCardButtonClick('guessTheNumber')}
+                   >
+                     {isGuessTheNumberExpanded && <GuessTheNumber />}
+                   </Card>
                   <Card
                     title="Low Stress - Card 4"
                     description="Recommendation for low stress level - Activity 4."
@@ -376,7 +404,7 @@ const Dashboard = () => {
                   </Card>
                   <Card
                     title="Guess the Number Game"
-                    description="Test your intutions"
+                    description="Test your intutions.Choose a random number"
                     buttonText={isGuessTheNumberExpanded ? "Collapse Game" : "Play Game"}
                     cardClass="question-card moderate-card-3"
                     buttonClass="submit-button"
@@ -399,37 +427,64 @@ const Dashboard = () => {
               {userStressCategory === 'High' && (
                 <>
                   <Card
-                    title="High Stress - Card 1"
-                    description="Recommendation for high stress level - Activity 1."
-                    buttonText="Start"
-                    onClick={() => console.log("High Stress Card 1 Clicked")}
+                    title="Geeta Thought of the Day"
+                    description= {
+                      <>
+                        {geetaThoughtLoading && <p>Loading thought...</p>}
+                        {geetaThoughtError && <p>Error fetching thought.</p>}
+                        {geetaThought && <p>"{geetaThought}"</p>}
+                      </>
+                    }
+                    buttonText="Refresh Thought"
+                    onClick={() => {
+                      console.log("Refresh Thought button clicked!");
+                      setGeetaThought(null);
+                      setGeetaThoughtLoading(true);
+                      setGeetaThoughtError(null);
+                      axios.get('http://localhost:5000/api/thought')
+                        .then(response => {
+                          console.log("Refreshed Geeta thought response:", response);
+                          setGeetaThought(response.data.text);
+                          setGeetaThoughtLoading(false);
+                        })
+                        .catch(error => {
+                          console.error("Error fetching Geeta thought on refresh:", error);
+                          setGeetaThoughtError(error);
+                          setGeetaThoughtLoading(false);
+                        });
+                    }}
                     cardClass="question-card high-card-1"
                     buttonClass="submit-button"
                   />
                   <Card
-                    title="High Stress - Card 2"
-                    description="Recommendation for high stress level - Activity 2."
-                    buttonText="Start"
-                    onClick={() => console.log("High Stress Card 2 Clicked")}
-                    cardClass="question-card high-card-2"
+                    title="Read a Book"
+                    description="Click to {isBookListExpanded ? 'collapse' : 'expand'} and browse books."
+                    buttonText={isBookListExpanded ? "Collapse Book List" : "Browse Books"} // Dynamic button text for books
+                    cardClass="question-card moderate-card-2" // Using moderate-card-2 as you mentioned "medium card 1" earlier, assuming it was a typo and meant card 2
                     buttonClass="submit-button"
-                  />
+                    onClick={() => handleCardButtonClick('books')} // Handle book card click
+                  >
+                    {isBookListExpanded && <BookList />} {/* Conditionally render BookList */}
+                  </Card>
                   <Card
-                    title="High Stress - Card 3"
-                    description="Recommendation for high stress level - Activity 3."
-                    buttonText="Start"
-                    onClick={() => console.log("High Stress Card 3 Clicked")}
-                    cardClass="question-card high-card-3"
+                    title="Relaxing Music"
+                    description="Click to {isMusicPlayerExpanded ? 'collapse' : 'expand'} and listen to calming music."
+                    buttonText={isMusicPlayerExpanded ? "Collapse Music Player" : "Play Music"}
+                    cardClass="question-card moderate-card-1"
                     buttonClass="submit-button"
-                  />
+                    onClick={() => handleCardButtonClick('music')}
+                  >{isMusicPlayerExpanded && <MusicPlayer />}
+                  </Card>
                   <Card
-                    title="High Stress - Card 4"
-                    description="Recommendation for high stress level - Activity 4."
-                    buttonText="Start"
-                    onClick={() => console.log("High Stress Card 4 Clicked")}
-                    cardClass="question-card high-card-4"
-                    buttonClass="submit-button"
-                  />
+                     title="Breathing Exercise"
+                     description="Click to {isBreathingExerciseExpanded ? 'collapse' : 'expand'} the breathing exercise." // Dynamic description
+                     buttonText={isBreathingExerciseExpanded ? "Collapse Exercise" : "Start Exercise"} // Dynamic button text
+                     cardClass="question-card low-card-1 breathing-exercise-card"
+                     buttonClass="submit-button"
+                     onClick={() => handleCardButtonClick('breathingExercise')} // Handle Breat
+                   >
+                       {isBreathingExerciseExpanded && <BreathingExercise />} {/* Conditionally render BreathingExercise */}
+                   </Card>
                 </>
               )}
             </div>
