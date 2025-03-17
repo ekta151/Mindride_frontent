@@ -8,9 +8,12 @@ import BreathingExercise from './BreathingExercise'; // Import the BreathingExer
 import MusicPlayer from './MusicPlayer';
 import BookList from './BookList'; // Import BookList component
 import GuessTheNumber from './GuessTheNumber'; // Import GuessTheNumber component
-import RockPaperScissors from './RockPaperScissors'; // Import RockPaperScissors component
 import EyeFocusExercise from './EyeFocusExercise'; // Import EyeFocusExercise
 import ChatTab from './ChatTab'; // Import ChatTab component
+import MindRelaxingGame from './MindRelaxingGame';
+import GentleWaves from './GentleWaves';
+
+
 
 const Dashboard = () => {
   const [userData, setUserData] = useState(null);
@@ -35,6 +38,9 @@ const Dashboard = () => {
   const [isCardGameExpanded, setIsCardGameExpanded] = useState(false); // New state for CardGame
   const [isEyeFocusExerciseExpanded, setIsEyeFocusExerciseExpanded] = useState(false); // State for EyeFocusExercise
   const [isFriendTabActive, setIsFriendTabActive] = useState(false); // State to track if 'Friend' tab is active
+  const [isMindRelaxingGameExpanded, setIsMindRelaxingGameExpanded] = useState(false);
+  const [isGentleWavesExpanded, setIsGentleWavesExpanded] = useState(false);
+
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -231,6 +237,21 @@ const Dashboard = () => {
         setIsEyeFocusExerciseExpanded(false);
         setIsGuessTheNumberExpanded(false);
         break;
+        case "mindRelaxingGame":
+          setIsMindRelaxingGameExpanded(!isMindRelaxingGameExpanded);
+          setIsMusicPlayerExpanded(false);
+          setIsRockPaperScissorsExpanded(false);
+          setIsEyeFocusExerciseExpanded(false);
+          setIsBreathingExerciseExpanded(false);
+          break;
+          case "gentleWaves":
+          setIsGentleWavesExpanded(!isGentleWavesExpanded);
+          setIsMusicPlayerExpanded(false);
+          setIsRockPaperScissorsExpanded(false);
+          setIsEyeFocusExerciseExpanded(false);
+          setIsBreathingExerciseExpanded(false);
+          setIsMindRelaxingGameExpanded(false);
+          break;
       default:
         console.log(`Card button clicked for: ${cardName}`);
     }
@@ -390,14 +411,14 @@ const Dashboard = () => {
                     {isBreathingExerciseExpanded && <BreathingExercise />}
                   </Card>
                   <Card
-                    title="Rock Paper Scissors"
-                    description="Challenge the computer to a game of Rock Paper Scissors!"
-                    buttonText={isRockPaperScissorsExpanded ? "Collapse Game" : "Play Game"}
-                    cardClass="question-card low-card-2"
+                    title="Mind Relaxing Game"
+                    description="Watch relaxing animated circles to calm your mind"
+                    buttonText={isMindRelaxingGameExpanded ? "Close Game" : "Start Game"}
+                    cardClass="question-card high-card-2"
                     buttonClass="submit-button"
-                    onClick={() => handleCardButtonClick('rockPaperScissors')}
+                    onClick={() => handleCardButtonClick('mindRelaxingGame')}
                   >
-                    {isRockPaperScissorsExpanded && <RockPaperScissors />}
+                    {isMindRelaxingGameExpanded && <MindRelaxingGame />}
                   </Card>
                   <Card
                     title="Guess the Number Game"
@@ -444,15 +465,15 @@ const Dashboard = () => {
                     {isBookListExpanded && <BookList />}
                   </Card>
                   <Card
-                    title="Guess the Number Game"
-                    description="Test your intutions.Choose a random number from 1-10"
-                    buttonText={isGuessTheNumberExpanded ? "Collapse Game" : "Play Game"}
-                    cardClass="question-card moderate-card-3"
-                    buttonClass="submit-button"
-                    onClick={() => handleCardButtonClick('guessTheNumber')}
-                  >
-                    {isGuessTheNumberExpanded && <GuessTheNumber />}
-                  </Card>
+                     title="Gentle Waves"
+                     description="Watch calming ocean waves to reduce stress"
+                     buttonText={isGentleWavesExpanded ? "Close Waves" : "Watch Waves"}
+                     cardClass="question-card moderate-card-4"
+                     buttonClass="submit-button"
+                     onClick={() => handleCardButtonClick('gentleWaves')}
+                   >
+                     {isGentleWavesExpanded && <GentleWaves />}
+                   </Card>
                   <Card
                     title="Breathing Exercise"
                     description="Feel the breath. Let it guide you"
