@@ -9,6 +9,8 @@ import MusicPlayer from './MusicPlayer';
 import BookList from './BookList'; // Import BookList component
 import GuessTheNumber from './GuessTheNumber'; // Import GuessTheNumber component
 import RockPaperScissors from './RockPaperScissors'; // Import RockPaperScissors component
+import EyeFocusExercise from './EyeFocusExercise'; // Import EyeFocusExercise
+import ChatTab from './ChatTab'; // Import ChatTab component
 
 const Dashboard = () => {
   const [userData, setUserData] = useState(null);
@@ -30,6 +32,9 @@ const Dashboard = () => {
   const [geetaThoughtLoading, setGeetaThoughtLoading] = useState(false);
   const [geetaThoughtError, setGeetaThoughtError] = useState(null);
   const [isRockPaperScissorsExpanded, setIsRockPaperScissorsExpanded] = useState(false); // New state for RockPaperScissors
+  const [isCardGameExpanded, setIsCardGameExpanded] = useState(false); // New state for CardGame
+  const [isEyeFocusExerciseExpanded, setIsEyeFocusExerciseExpanded] = useState(false); // State for EyeFocusExercise
+  const [isFriendTabActive, setIsFriendTabActive] = useState(false); // State to track if 'Friend' tab is active
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -181,19 +186,53 @@ const Dashboard = () => {
     setStep("questions");
   };
 
-  const handleCardButtonClick = (cardType) => {
-    if (cardType === 'music') {
+  const handleCardButtonClick = (cardName) => {
+    switch (cardName) {
+      case "musicPlayer":
         setIsMusicPlayerExpanded(!isMusicPlayerExpanded);
-    } else if (cardType === 'books') {
-        setIsBookListExpanded(!isBookListExpanded);
-    } else if (cardType === 'breathingExercise') {
+        setIsRockPaperScissorsExpanded(false);
+        setIsEyeFocusExerciseExpanded(false); // Close other cards
+        break;
+      case "rockPaperScissors":
+        setIsRockPaperScissorsExpanded(!isRockPaperScissorsExpanded);
+        setIsMusicPlayerExpanded(false);
+        setIsEyeFocusExerciseExpanded(false); // Close other cards
+        break;
+      case "eyeFocusExercise": // Handle EyeFocusExercise card
+        setIsEyeFocusExerciseExpanded(!isEyeFocusExerciseExpanded);
+        setIsMusicPlayerExpanded(false);
+        setIsRockPaperScissorsExpanded(false); // Close other cards
+        break;
+      case "breathingExercise":
         setIsBreathingExerciseExpanded(!isBreathingExerciseExpanded); // Toggle BreathingExercise expansion
-    } else if (cardType === 'guessTheNumber') {
+        setIsMusicPlayerExpanded(false);
+        setIsRockPaperScissorsExpanded(false);
+        setIsGuessTheNumberExpanded(false);
+        setIsCardGameExpanded(false);
+        break;
+      case "guessTheNumber":
         setIsGuessTheNumberExpanded(!isGuessTheNumberExpanded); // Toggle GuessTheNumber expansion
-    } else if (cardType === 'rockPaperScissors') {
-        setIsRockPaperScissorsExpanded(!isRockPaperScissorsExpanded); // Toggle RockPaperScissors expansion
-    } else {
-        console.log(`Card button clicked for: ${cardType}`);
+        setIsMusicPlayerExpanded(false);
+        setIsRockPaperScissorsExpanded(false);
+        setIsEyeFocusExerciseExpanded(false);
+        setIsCardGameExpanded(false);
+        break;
+      case "books":
+        setIsBookListExpanded(!isBookListExpanded);
+        setIsMusicPlayerExpanded(false);
+        setIsRockPaperScissorsExpanded(false);
+        setIsEyeFocusExerciseExpanded(false);
+        setIsCardGameExpanded(false);
+        break;
+      case "cardGame":
+        setIsCardGameExpanded(!isCardGameExpanded);
+        setIsMusicPlayerExpanded(false);
+        setIsRockPaperScissorsExpanded(false);
+        setIsEyeFocusExerciseExpanded(false);
+        setIsGuessTheNumberExpanded(false);
+        break;
+      default:
+        console.log(`Card button clicked for: ${cardName}`);
     }
   };
 
@@ -342,13 +381,13 @@ const Dashboard = () => {
                 <>
                   <Card
                     title="Breathing Exercise"
-                    description="Click to {isBreathingExerciseExpanded ? 'collapse' : 'expand'} the breathing exercise." // Dynamic description
-                    buttonText={isBreathingExerciseExpanded ? "Collapse Exercise" : "Start Exercise"} // Dynamic button text
+                    description="Feel the breath. Let it guide you."
+                    buttonText={isBreathingExerciseExpanded ? "Collapse Exercise" : "Start Exercise"}
                     cardClass="question-card low-card-1 breathing-exercise-card"
                     buttonClass="submit-button"
-                    onClick={() => handleCardButtonClick('breathingExercise')} // Handle BreathingExercise card click
+                    onClick={() => handleCardButtonClick('breathingExercise')}
                   >
-                    {isBreathingExerciseExpanded && <BreathingExercise />} {/* Conditionally render BreathingExercise */}
+                    {isBreathingExerciseExpanded && <BreathingExercise />}
                   </Card>
                   <Card
                     title="Rock Paper Scissors"
@@ -356,55 +395,57 @@ const Dashboard = () => {
                     buttonText={isRockPaperScissorsExpanded ? "Collapse Game" : "Play Game"}
                     cardClass="question-card low-card-2"
                     buttonClass="submit-button"
-                    onClick={() => handleCardButtonClick('rockPaperScissors')} // Handle RockPaperScissors card click
+                    onClick={() => handleCardButtonClick('rockPaperScissors')}
                   >
                     {isRockPaperScissorsExpanded && <RockPaperScissors />}
                   </Card>
                   <Card
-                     title="Guess the Number Game"
-                     description="Test your intutions.Choose a random number"
-                     buttonText={isGuessTheNumberExpanded ? "Collapse Game" : "Play Game"}
-                     cardClass="question-card moderate-card-3"
-                     buttonClass="submit-button"
-                     onClick={() => handleCardButtonClick('guessTheNumber')}
-                   >
-                     {isGuessTheNumberExpanded && <GuessTheNumber />}
-                   </Card>
-                  <Card
-                    title="Low Stress - Card 4"
-                    description="Recommendation for low stress level - Activity 4."
-                    buttonText="Start"
-                    onClick={() => console.log("Low Stress Card 3 Clicked")}
-                    cardClass="question-card low-card-3"
+                    title="Guess the Number Game"
+                    description="Test your intutions.Choose a random number from 1-10"
+                    buttonText={isGuessTheNumberExpanded ? "Collapse Game" : "Play Game"}
+                    cardClass="question-card moderate-card-3"
                     buttonClass="submit-button"
-                  />
+                    onClick={() => handleCardButtonClick('guessTheNumber')}
+                  >
+                    {isGuessTheNumberExpanded && <GuessTheNumber />}
+                  </Card>
+                  <Card
+                    title="Eye Focus Exercise"
+                    description="Eye Focus Exercise to relax your eyes."
+                    buttonText={isEyeFocusExerciseExpanded ? "Collapse Exercise" : "Start Exercise"}
+                    cardClass="question-card low-card-4"
+                    buttonClass="submit-button"
+                    onClick={() => handleCardButtonClick('eyeFocusExercise')}
+                  >
+                    {isEyeFocusExerciseExpanded && <EyeFocusExercise />}
+                  </Card>
                 </>
               )}
               {userStressCategory === 'Moderate' && (
                 <>
                   <Card
                     title="Relaxing Music"
-                    description="Click to {isMusicPlayerExpanded ? 'collapse' : 'expand'} and listen to calming music."
+                    description="Where words fail, music speaks"
                     buttonText={isMusicPlayerExpanded ? "Collapse Music Player" : "Play Music"}
                     cardClass="question-card moderate-card-1"
                     buttonClass="submit-button"
-                    onClick={() => handleCardButtonClick('music')}
+                    onClick={() => handleCardButtonClick('musicPlayer')}
                   >
                     {isMusicPlayerExpanded && <MusicPlayer />}
                   </Card>
                   <Card
                     title="Read a Book"
-                    description="Click to {isBookListExpanded ? 'collapse' : 'expand'} and browse books."
-                    buttonText={isBookListExpanded ? "Collapse Book List" : "Browse Books"} // Dynamic button text for books
-                    cardClass="question-card moderate-card-2" // Using moderate-card-2 as you mentioned "medium card 1" earlier, assuming it was a typo and meant card 2
+                    description="Books are the quietest and most constant of friends"
+                    buttonText={isBookListExpanded ? "Collapse Book List" : "Browse Books"}
+                    cardClass="question-card moderate-card-2"
                     buttonClass="submit-button"
-                    onClick={() => handleCardButtonClick('books')} // Handle book card click
+                    onClick={() => handleCardButtonClick('books')}
                   >
-                    {isBookListExpanded && <BookList />} {/* Conditionally render BookList */}
+                    {isBookListExpanded && <BookList />}
                   </Card>
                   <Card
                     title="Guess the Number Game"
-                    description="Test your intutions.Choose a random number"
+                    description="Test your intutions.Choose a random number from 1-10"
                     buttonText={isGuessTheNumberExpanded ? "Collapse Game" : "Play Game"}
                     cardClass="question-card moderate-card-3"
                     buttonClass="submit-button"
@@ -414,13 +455,13 @@ const Dashboard = () => {
                   </Card>
                   <Card
                     title="Breathing Exercise"
-                    description="Click to {isBreathingExerciseExpanded ? 'collapse' : 'expand'} the breathing exercise." // Dynamic description
-                    buttonText={isBreathingExerciseExpanded ? "Collapse Exercise" : "Start Exercise"} // Dynamic button text
+                    description="Feel the breath. Let it guide you"
+                    buttonText={isBreathingExerciseExpanded ? "Collapse Exercise" : "Start Exercise"}
                     cardClass="question-card low-card-1 breathing-exercise-card"
                     buttonClass="submit-button"
-                    onClick={() => handleCardButtonClick('breathingExercise')} // Handle Breat
+                    onClick={() => handleCardButtonClick('breathingExercise')}
                   >
-                      {isBreathingExerciseExpanded && <BreathingExercise />} {/* Conditionally render BreathingExercise */}
+                      {isBreathingExerciseExpanded && <BreathingExercise />}
                   </Card>
                 </>
               )}
@@ -458,36 +499,43 @@ const Dashboard = () => {
                   />
                   <Card
                     title="Read a Book"
-                    description="Click to {isBookListExpanded ? 'collapse' : 'expand'} and browse books."
-                    buttonText={isBookListExpanded ? "Collapse Book List" : "Browse Books"} // Dynamic button text for books
-                    cardClass="question-card moderate-card-2" // Using moderate-card-2 as you mentioned "medium card 1" earlier, assuming it was a typo and meant card 2
+                    description="Books are the quietest and most constant of friends"
+                    buttonText={isBookListExpanded ? "Collapse Book List" : "Browse Books"}
+                    cardClass="question-card moderate-card-2"
                     buttonClass="submit-button"
-                    onClick={() => handleCardButtonClick('books')} // Handle book card click
+                    onClick={() => handleCardButtonClick('books')}
                   >
-                    {isBookListExpanded && <BookList />} {/* Conditionally render BookList */}
+                    {isBookListExpanded && <BookList />}
                   </Card>
                   <Card
                     title="Relaxing Music"
-                    description="Click to {isMusicPlayerExpanded ? 'collapse' : 'expand'} and listen to calming music."
+                    description="Where words fail, music speaks"
                     buttonText={isMusicPlayerExpanded ? "Collapse Music Player" : "Play Music"}
                     cardClass="question-card moderate-card-1"
                     buttonClass="submit-button"
-                    onClick={() => handleCardButtonClick('music')}
+                    onClick={() => handleCardButtonClick('musicPlayer')}
                   >{isMusicPlayerExpanded && <MusicPlayer />}
                   </Card>
                   <Card
                      title="Breathing Exercise"
-                     description="Click to {isBreathingExerciseExpanded ? 'collapse' : 'expand'} the breathing exercise." // Dynamic description
-                     buttonText={isBreathingExerciseExpanded ? "Collapse Exercise" : "Start Exercise"} // Dynamic button text
+                     description="Feel the breath.Let it guide you."
+                     buttonText={isBreathingExerciseExpanded ? "Collapse Exercise" : "Start Exercise"}
                      cardClass="question-card low-card-1 breathing-exercise-card"
                      buttonClass="submit-button"
-                     onClick={() => handleCardButtonClick('breathingExercise')} // Handle Breat
+                     onClick={() => handleCardButtonClick('breathingExercise')}
                    >
-                       {isBreathingExerciseExpanded && <BreathingExercise />} {/* Conditionally render BreathingExercise */}
+                       {isBreathingExerciseExpanded && <BreathingExercise />}
                    </Card>
                 </>
               )}
             </div>
+          </div>
+        );
+      case "friend": // Render ChatTab for 'friend' tab
+        return (
+          <div className="content-section friend-section">
+          <h1 className="friend-heading">Your Unbiased Listening Partner😊</h1>
+            <ChatTab />
           </div>
         );
       case "account":
@@ -572,6 +620,11 @@ const Dashboard = () => {
     }, 600);
 
     handleTabChange(e.currentTarget.dataset.tab);
+    if (e.currentTarget.dataset.tab === 'friend') {
+      setIsFriendTabActive(true); // Set friend tab as active
+    } else {
+      setIsFriendTabActive(false); // Deactivate friend tab for other tabs
+    }
   };
 
   if (loading) {

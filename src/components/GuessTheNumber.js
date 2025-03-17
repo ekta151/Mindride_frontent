@@ -7,7 +7,7 @@ function GuessTheNumber() {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    setTargetNumber(Math.floor(Math.random() * 100) + 1);
+    setTargetNumber(Math.floor(Math.random() * 10) + 1);
   }, []);
 
   const handleGuess = () => {

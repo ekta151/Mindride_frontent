@@ -1357,5 +1357,11 @@
     background-color: #e0e0e0; /* Example hover background color */
 }
 
-
+.friend-heading {
+  color: #6933A5; /* A nice shade of pink, you can change this */
+  font-size: 2.0rem;     /* Larger text */
+  text-align: center;    /* Center the text */
+  margin-bottom: 1rem;  /* Add some space below the heading */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Subtle text shadow */
+}
  
