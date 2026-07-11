@@ -1,0 +1,46 @@
+.eye-focus-exercise-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f8f8f8; /* Light grey background, similar to playlist */
+    border-radius: 10px;
+    box-shadow: inset 2px 2px 5px #d1d9e6, inset -2px -2px 5px #ffffff; /* Soft inset shadow */
+    margin-top: 20px;
+}
+
+.eye-focus-exercise-canvas {
+    border: 2px solid #e0e0e0; /* Light grey border for canvas */
+    border-radius: 8px;
+    box-shadow: 3px 3px 7px #d1d9e6, -3px -3px 7px #ffffff; /* Soft shadow for canvas */
+}
+
+.eye-focus-exercise-button {
+    background-color: #fff; /* White button */
+    color: #64b5f6; /* Pastel blue text, same as other buttons */
+    border: none;
+    padding: 10px 20px;
+    margin-top: 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 3px 3px 7px #d1d9e6, -3px -3px 7px #ffffff; /* Soft button shadow */
+}
+
+.eye-focus-exercise-button:hover {
+    background-color: #f0f0f0; /* Light grey hover */
+    color: #42a5f5; /* Darker pastel blue on hover */
+    box-shadow: 4px 4px 8px #d1d9e6, -4px -4px 8px #ffffff; /* Slightly stronger hover shadow */
+}
+
+.eye-focus-exercise-button:active {
+    background-color: #e0e0e0; /* Even lighter grey on active */
+    box-shadow: inset 2px 2px 5px #d1d9e6, inset -2px -2px 5px #ffffff; /* Inset soft shadow on active */
+}
+
+.eye-focus-exercise-paragraph {
+    margin-top: 15px;
+    color: #777; /* Slightly darker grey text for paragraph */
+    font-size: 0.9em;
+} 

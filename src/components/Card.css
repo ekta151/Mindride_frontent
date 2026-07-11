@@ -1,0 +1,51 @@
+/* src/components/Card.css
+.recommendation-card {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.recommendation-card h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.recommendation-card p {
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.recommendation-card .card-button {
+  background-color: #007bff; /* Example button color */
+  /* color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.recommendation-card .card-button:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+/* }
+
+/* Example specific card styles (optional - adjust as needed) */
+/* .card-low {
+  background-color: #e6f7ff; /* Light blue for low stress */
+/* }
+
+.card-moderate {
+  background-color: #fffbe6; /* Light yellow for moderate stress */
+/* }
+
+.card-high {
+  background-color: #ffe6e6; /* Light red for high stress */
+/* } */ 
+
+.question-card {
+  color: black; 
+  
+}
